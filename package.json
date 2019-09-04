@@ -1,0 +1,8 @@
+{
+    "name": "smart-home-security-test",
+    "version": "0.0.1",
+    "license": "MIT",
+    "dependencies": {
+        "restify": "^8.4.0"
+    }
+}
