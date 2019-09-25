@@ -1,19 +1,11 @@
 {
-    "name": "smart-home-security-test",
+    "name": "smart-home-security-suite",
     "version": "0.0.1",
     "license": "MIT",
-    "dependencies": {
-        "@types/jsonwebtoken": "^8.3.3",
-        "@types/restify": "^8.4.0",
-        "@types/restify-errors": "^4.3.3",
-        "jsonwebtoken": "^8.5.1",
-        "mongodb": "^3.3.2",
-        "restify": "^8.4.0",
-        "restify-errors": "^8.0.1",
-        "restify-jwt-community": "^1.1.0",
-        "typescript": "^3.6.2"
-    },
+    "dependencies": {},
     "scripts": {
-        "tsc": "tsc"
+        "tsc": "tsc",
+        "start-server": "cd server && cp -a certs/. build/certs/ && npm run start-server",
+        "start-app": "cd app && npm run start"
     }
 }
