@@ -4,7 +4,9 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 export interface UserModel extends Document {
     userName: string;
     password: string;
-    uid: string;
+    uid: BigInt;
+    admin: boolean;
+    name: string;
   }
 
 const UserSchema: Schema = new Schema({

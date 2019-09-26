@@ -1,9 +1,8 @@
-import { Db, MongoClient } from 'mongodb';
 import mongoose, { Connection } from 'mongoose';
-import { InternalServerError } from 'restify-errors';
+import { UnauthorizedError } from 'restify-errors';
 import { User, UserModel } from './models/user.js';
 import * as config from './config.json';
-import { LightStatus, Light } from './models/light.js';
+import * as crypto from 'crypto';
 
 declare interface Models {
     User: UserModel;
@@ -33,10 +32,15 @@ export class SmartHomeDatabase {
    
     public authenticate = async(username: string, password: string): Promise<UserModel | null> => {
         try {
-            // User.findOne({userName: {'$gte': ''}}).then(a => console.log(a));
-            console.log(username);
-            console.log(password);
-            return User.findOne({userName: username, password: password}).exec();
+            return User.findOne({userName: username})
+                .then((user) => {
+                    const hash = crypto.createHash('md5').update(password).digest('hex');
+                    if ( user && hash === user.password) {
+                        return user;
+                    }
+                    else throw new UnauthorizedError();
+                }
+            );
         }
         catch(error) {
             return error;

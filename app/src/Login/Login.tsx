@@ -7,19 +7,29 @@ interface LoginState {
     password: string;
     error: boolean;
     loggedIn: boolean;
+    name: string;
 }
 
-class Login extends React.Component {
+interface LoginProps {
+    username?: string;
+    password?: string;
+    error?: boolean;
+    loggedIn?: boolean;
+    name: string;
+}
+
+class Login extends React.Component<LoginProps> {
     public state: LoginState
 
 
-    constructor(props: any) {
+    constructor(props: LoginProps) {
         super(props);
         this.state = {
             username: '',
             password: '',
             error: false,
-            loggedIn: !isNullOrUndefined(sessionStorage.getItem('jwt'))
+            loggedIn: !isNullOrUndefined(sessionStorage.getItem('jwt')),
+            name: props.name
         }
     }
 
@@ -49,6 +59,7 @@ class Login extends React.Component {
             .then(data => {
                 sessionStorage.setItem('jwt', data);
                 this.setState({ ...this.state, loggedIn: true, error: false });
+                window.location.reload();
             })
             .catch(err => this.setState({ ...this.state, error: true, loggedIn: false }));
     }
@@ -56,11 +67,13 @@ class Login extends React.Component {
     logout = () => {
         sessionStorage.removeItem('jwt');
         this.setState({ loggedIn: false });
+        window.location.reload();
     }
 
     render() {
         return this.state.loggedIn ?
-            (<div><Button variant="primary" type="submit" onClick={this.logout}>Logout</Button></div>) :
+            (<div><div><h1>Welcome {this.props.name}</h1></div>
+            <div><Button variant="primary" type="submit" onClick={this.logout}>Logout</Button></div></div>) :
             (<div className="Login">
                 <Form noValidate onSubmit={this.handleSubmit} >
                     <Form.Row>

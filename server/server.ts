@@ -8,6 +8,7 @@ import * as restifyCors from 'restify-cors-middleware';
 import { Light } from "./models/light.js";
 import { readFileSync } from "fs";
 import { User } from "./models/user.js";
+import { userInfo } from "os";
 
 const rjwt = require('restify-jwt-community');
 
@@ -42,16 +43,29 @@ server.get('/certs/*', restify.plugins.serveStaticFiles('./certs'
 ));
 
 server.get('/lights', (req: Request, res: Response, next: Next) => {
-  Light.find()
-    .then(lights => res.send(lights))
-    .catch(err => res.send(err));
+  const user = (req as any).user;
+  console.log(user);
+  if (user.admin) {
+    Light.find()
+      .then(lights => res.send(lights))
+      .catch(err => res.send(err));
+  } else {
+    Light.find({owner: parseInt(user.uid)})
+      .then(lights => res.send(lights))
+      .catch(err => res.send(err));
+  }
   return next();
 })
 
 server.get('/user', (req: Request, res: Response, next: Next) => {
   const user = (req as any).user;
   User.findOne({userName: user.userName})
-    .then(user => res.send(user))
+    .then(user => {
+      const sendUser = {
+        name: user && user.name,
+        uid: user && user.uid
+      };
+      res.send(sendUser); console.log(sendUser);})
     .catch(err => res.send(err));
   return next();
 })
@@ -63,7 +77,7 @@ server.get('/user/:name', (req: Request, res: Response, next: Next) => {
         res.send(new NotFoundError)
       } else {
         const sendUser = {
-          name: user && user.userName,
+          name: user && user.name,
           uid: user && user.uid
         };
         res.send(req.headers.showpassword ? {...sendUser, password: user.password} : sendUser);
@@ -73,15 +87,22 @@ server.get('/user/:name', (req: Request, res: Response, next: Next) => {
   return next();
 })
 
-server.post('/light/:index/:status/:color', (req: Request, res: Response, next: Next) => {
-  const updatedLight = {
-    status: req.params.status,
-    color: req.params.color
-  };
-  Light.updateOne({ _id: req.params.index }, updatedLight)
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
-})
+server.post('/light/:index/:status', (req: Request, res: Response, next: Next) => {
+  Light.findOne({_id: req.params.index})
+    .then(light => {
+      if (light && light.owner === (req as any).user.uid || (req as any).user.admin) {
+        const updatedLight = {
+          status: req.params.status
+        };
+        Light.updateOne({ _id: req.params.index }, updatedLight)
+          .then(result => res.send(result))
+          .catch(err => res.send(err));
+    } else {
+      res.send(new UnauthorizedError());
+    }})
+    .catch(err => res.send(err))
+    return next();
+});
 
 server.post('/auth', (req: Request, res: Response, next: Next) => {
   try {

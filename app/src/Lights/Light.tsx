@@ -1,18 +1,27 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 
-export interface LightProps {
-    id: string;
+export enum LightStatus {
+    ON, OFF, OFFLINE
+}
+
+export interface ILight {
+    _id: string;
     name: string;
-    status: boolean;
+    status: LightStatus;
     color: string;
-    switchLight(event: any): void;
+}
+export interface LightProps extends ILight {
+    switchLight(id: string, status: boolean): void;
 }
 
 const Light = (props: LightProps) => {
+    function switchLight(event: any): void {
+        props.switchLight(props._id, !props.status);
+    }
     return (
-        <div key={props.id}>
-            <span>{props.name}</span> <Button onClick={props.switchLight}>{props.status ? 'On' : 'Off'}</Button>
+        <div>
+            <span>{props.name}</span> <Button onClick={switchLight}>{props.status === LightStatus.ON ? 'On' : 'Off'}</Button>
         </div>
     )
 }
