@@ -1,7 +1,9 @@
 
 {
     "jwt": {
-      "secret": "$&*chiufh7e8fh*$&$%Y#*fc7bf2wce8of34"
+      "secret": "$&*chiufh7e8fh*$&$%Y#*fc7bf2wce8of34",
+      "exp":"15m",
+      "refreshExp":"1w"
     },
     "db": {
         "url": "mongodb://localhost:27017/smartHome",

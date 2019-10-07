@@ -3,10 +3,13 @@ import { UnauthorizedError } from 'restify-errors';
 import { User, UserModel } from './models/user.js';
 import * as config from './config.json';
 import * as crypto from 'crypto';
+import { LightModel, Light } from './models/light.js';
+import { Fridge, FridgeModel } from './models/fridge.js';
 
 declare interface Models {
     User: UserModel;
-
+    Light: LightModel;
+    Fridge: FridgeModel;
 }
 
 export class SmartHomeDatabase {
@@ -21,7 +24,9 @@ export class SmartHomeDatabase {
         this._db.on('error', this.error);
 
         this._models = {
-            User: new User()
+            User: new User(),
+            Light: new Light(),
+            Fridge: new Fridge()
             // this is where we initialise all models
         }
     }

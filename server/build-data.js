@@ -52,3 +52,18 @@ db.lights.insertMany([
         owner: 1
     }]
 )
+
+db.fridges.insertMany([{
+    name: 'kitchen',
+    owner: 2,
+    contents: [
+        {item: 'egg', count: 18},
+        {item: 'tofu', count: 1},
+        {item: 'unidentified bottle', count: 1},
+        {item: 'rum', count: 1}
+    ],
+    contentsWanted: [{item: 'egg', count: 30},
+    {item: 'tofu', count: 5},
+    {item: 'rum', count: 3}],
+    confirmationCode: '22/05/1953'
+}])

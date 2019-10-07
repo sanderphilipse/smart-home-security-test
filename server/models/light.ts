@@ -9,7 +9,7 @@ export interface LightModel extends Document {
     name: string;
     status: LightStatus;
     color: string;
-    owner: BigInt;
+    owner: number;
 }
 
 validator:

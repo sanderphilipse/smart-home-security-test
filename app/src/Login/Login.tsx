@@ -1,21 +1,17 @@
 import React, { FormEvent } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { FormControlProps } from 'react-bootstrap';
-import { isNullOrUndefined } from 'util';
 interface LoginState {
     username: string;
     password: string;
-    error: boolean;
-    loggedIn: boolean;
-    name: string;
 }
 
 interface LoginProps {
-    username?: string;
-    password?: string;
     error?: boolean;
     loggedIn?: boolean;
-    name: string;
+    name?: string;
+    login(username:string, password: string): void;
+    logout(): void;
 }
 
 class Login extends React.Component<LoginProps> {
@@ -26,10 +22,7 @@ class Login extends React.Component<LoginProps> {
         super(props);
         this.state = {
             username: '',
-            password: '',
-            error: false,
-            loggedIn: !isNullOrUndefined(sessionStorage.getItem('jwt')),
-            name: props.name
+            password: ''
         }
     }
 
@@ -44,37 +37,15 @@ class Login extends React.Component<LoginProps> {
     handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        const username = this.state.username;
-        const password = this.state.password;
-        fetch('http://localhost:8080/auth', { method: 'POST', body: JSON.stringify({ username: username, password: password }) })
-            .then(res => {
-                if (res.status === 200) 
-                { 
-                    return res 
-                } else { 
-                    throw new Error(); 
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                sessionStorage.setItem('jwt', data);
-                this.setState({ ...this.state, loggedIn: true, error: false });
-                window.location.reload();
-            })
-            .catch(err => this.setState({ ...this.state, error: true, loggedIn: false }));
-    }
-
-    logout = () => {
-        sessionStorage.removeItem('jwt');
-        this.setState({ loggedIn: false });
-        window.location.reload();
+        this.props.login(this.state.username, this.state.password);
     }
 
     render() {
-        return this.state.loggedIn ?
+        return this.props.loggedIn ?
             (<div><div><h1>Welcome {this.props.name}</h1></div>
-            <div><Button variant="primary" type="submit" onClick={this.logout}>Logout</Button></div></div>) :
+            <div><Button variant="primary" type="submit" onClick={this.props.logout}>Logout</Button></div></div>) :
             (<div className="Login">
+                <h1>Login</h1>
                 <Form noValidate onSubmit={this.handleSubmit} >
                     <Form.Row>
                         <Form.Group controlId="username">
@@ -88,7 +59,7 @@ class Login extends React.Component<LoginProps> {
                             <Form.Control type="password" placeholder="Password" onChange={this.handleChange} />
                         </Form.Group>
                     </Form.Row>
-                    {this.state.error ? <div>Login failed</div> : null}
+                    {this.props.error ? <div>Login failed</div> : null}
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>

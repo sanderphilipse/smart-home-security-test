@@ -12,12 +12,17 @@ export interface ILight {
     color: string;
 }
 export interface LightProps extends ILight {
-    switchLight(id: string, status: boolean): void;
+    switchLight(id: string, status: LightStatus): void;
+}
+
+function lightSwitch(status: LightStatus): LightStatus {
+    
+    return status === LightStatus.OFF ? LightStatus.ON : LightStatus.OFF;
 }
 
 const Light = (props: LightProps) => {
     function switchLight(event: any): void {
-        props.switchLight(props._id, !props.status);
+        props.switchLight(props._id, lightSwitch(props.status));
     }
     return (
         <div>

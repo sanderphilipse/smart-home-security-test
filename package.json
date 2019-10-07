@@ -5,7 +5,7 @@
     "dependencies": {},
     "scripts": {
         "tsc": "tsc",
-        "start-server": "cd server && cp -a certs/. build/certs/ && npm run start-server",
+        "start-server": "cd server && npm run start-server",
         "start-app": "cd app && npm run start"
     }
 }
