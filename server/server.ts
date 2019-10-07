@@ -156,12 +156,8 @@ server.get('/fridge/:id', (req: Request, res: Response, next: Next) => {
     } else {
       Fridge.findOne({ _id: req.params.id })
         .then(fridge => {
-          console.log(fridge);
-          console.log(req.headers);
           if (fridge && fridge.owner === user.uid) {
-            if (fridge.confirmationCode !== undefined) {
-              console.log(fridge.confirmationCode);
-              console.log(req.headers.authcode);
+            if ((fridge.confirmationCode !== undefined) && (req.headers.authcode !== undefined)) {
               res.send(fridge.confirmationCode === req.headers.authcode ? fridge.contents : new InternalServerError());
             }
             else {
