@@ -97,9 +97,9 @@ server.post('/light/:index/:status', (req: Request, res: Response, next: Next) =
     if (!(req as any).user) {
       res.send(new UnauthorizedError());
     } else {
-      Light.findOne({ _id: req.params.index, owner: parseInt((req as any).user.uid) })
+      Light.findOne({ _id: req.params.index})
         .then(light => {
-          if (light || (req as any).user.admin) {
+          if (light) {
             const updatedLight = {
               status: parseInt(req.params.status)
             };
