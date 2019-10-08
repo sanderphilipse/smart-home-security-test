@@ -20,7 +20,7 @@ interface AppState {
   fridge: FridgeProps;
 }
 
-const serverUrl = 'http://localhost:3000'
+const serverUrl = '';
 
 class App extends React.Component {
   private initialState: AppState = {
