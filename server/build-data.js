@@ -11,6 +11,13 @@ db.users.insertMany([{
     "password": "f04a5c13c472f712ef79f0af1e320595",
     "admin": false,
     "name": "Ernst-Jan Bergman"
+},
+{
+    uid: 3,
+    "userName": "testuser",
+    "password": "cc03e747a6afbbcbf8be7668acfebee5",
+    "admin": false,
+    "name": "Test User",
 }]
 )
 

@@ -9,8 +9,8 @@ interface LightsProps {
 
 const Lights = (props: LightsProps) => {
 
-        return (
-            <div>
+        return props.lights.length === 0 ? (null) : (
+            <div className="lights-component">
                 <h2>Lights</h2>
                 <ul>
                     {props.lights.map((light: ILight) => <Light

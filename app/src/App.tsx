@@ -98,7 +98,7 @@ class App extends React.Component {
         }
       })
       .then(res => {this.setState({...this.state, fridge: {...this.state.fridge, _id: res._id, name: res.name}});})
-      .catch(err => {console.log(err); this.setState({...this.state, fridge: {...this.initialState.fridge, error: true}});})
+      .catch(err => {this.setState({...this.state, fridge: {...this.initialState.fridge, error: true}});})
   }
 
   switchLight(id: string, status: LightStatus) {
@@ -185,15 +185,18 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Login 
+          <h1 className="App-title">Your smart home dashboard</h1> 
+        </header>
+        <div className="App-contents">
+        <Login 
             name={(this.state.user && this.state.user.name)|| ''}
             loggedIn={!!this.state.token}
             login={this.login.bind(this)}
             error={this.state.loginError}
             logout={this.logout.bind(this)}></Login>
-          <Lights lights={this.state.lights} error={false} switchLight={this.switchLight.bind(this)}></Lights>
-          <Fridge {...this.state.fridge}></Fridge>
-        </header>
+        <Lights lights={this.state.lights} error={false} switchLight={this.switchLight.bind(this)}></Lights>
+        <Fridge {...this.state.fridge}></Fridge>
+        </div>
       </div>
     );
   }

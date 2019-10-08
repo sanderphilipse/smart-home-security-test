@@ -34,11 +34,8 @@ server.use(restify.plugins.bodyParser());
 server.use(rjwt({
   secret: config.jwt.secret
 }).unless({
-  path: ['/auth', '/token', '/certs/']
+  path: ['/auth', '/token']
 }));
-
-server.get('/certs/*', restify.plugins.serveStaticFiles('./certs'
-));
 
 server.get('/lights', (req: Request, res: Response, next: Next) => {
   try {

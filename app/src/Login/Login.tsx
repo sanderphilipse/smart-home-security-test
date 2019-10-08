@@ -42,14 +42,14 @@ class Login extends React.Component<LoginProps> {
 
     render() {
         return this.props.loggedIn ?
-            (<div><div><h1>Welcome {this.props.name}</h1></div>
-            <div><Button variant="primary" type="submit" onClick={this.props.logout}>Logout</Button></div></div>) :
-            (<div className="Login">
+            (<div className="login-component"><div><h1>Welcome {this.props.name}</h1></div>
+            <div ><Button className="submit-button" variant="primary" type="submit" onClick={this.props.logout}>Logout</Button></div></div>) :
+            (<div className="login-component">
                 <h1>Login</h1>
                 <Form noValidate onSubmit={this.handleSubmit} >
                     <Form.Row>
-                        <Form.Group controlId="username">
-                            <Form.Label>Username</Form.Label>
+                        <Form.Group controlId="username" className="form-group">
+                            <Form.Label className="form-label">Username</Form.Label>
                             <Form.Control type="username" placeholder="Enter user name" onChange={this.handleChange} />
                         </Form.Group>
                     </Form.Row>
@@ -60,7 +60,7 @@ class Login extends React.Component<LoginProps> {
                         </Form.Group>
                     </Form.Row>
                     {this.props.error ? <div>Login failed</div> : null}
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" className="submit-button">
                         Submit
                     </Button>
                 </Form>

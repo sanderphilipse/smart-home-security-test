@@ -46,13 +46,12 @@ class Fridge extends React.Component<FridgeProps> {
     }
 
     render() {
-        console.log(this.state);
         return !this.props.name ? null : (
-            <div>
+            <div className="fridge-component">
                 <h2>Your fridge</h2>
-                <div>{this.props.name}</div>
+                <h3 className="fridge-name"><b>Fridge name: </b>{this.props.name}</h3>
                 <form>
-                    <div><label>Authorization code</label><input value={this.state.authorizationCode} onChange={this.handleChange}></input></div>
+                    <div><label className="form-label">Authorization code</label><input value={this.state.authorizationCode} onChange={this.handleChange}></input></div>
                     <div>{this.state.contentsError ? 'Wrong authorization code' : null}</div>
                     <Button type="submit" onClick={this.handleSubmit}>Get Fridge Contents</Button>
                 </form>
