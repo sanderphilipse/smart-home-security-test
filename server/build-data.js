@@ -1,7 +1,7 @@
 db.users.insertMany([{
     uid: 1,
     "userName": "admin",
-    "password": "0192023a7bbd73250516f069df18b500",
+    "password": "200ceb26807d6bf99fd6f4f0d1ca54d4",
     "admin": true,
     "name": "Administrator"
 },
@@ -57,8 +57,14 @@ db.lights.insertMany([
         status: 0,
         color: '#ffffff',
         owner: 1
-    }]
-)
+    },
+    {
+        name: 'test',
+        status: 0,
+        color: '#ffffff',
+        owner: 3
+    }
+])
 
 db.fridges.insertMany([{
     name: 'kitchen',
@@ -73,4 +79,15 @@ db.fridges.insertMany([{
     {item: 'tofu', count: 5},
     {item: 'rum', count: 3}],
     confirmationCode: '22/05/1953'
+},
+{
+    name: 'testfridge',
+    owner: 3,
+    contents: [
+        {item: 'egg', count: 8}
+    ],
+    contentsWanted: [{item: 'egg', count: 30},
+    {item: 'tofu', count: 5},
+    {item: 'rum', count: 3}],
+    confirmationCode: 'test123'
 }])
