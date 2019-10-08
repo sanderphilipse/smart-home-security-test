@@ -2,7 +2,10 @@
     "name": "smart-home-security-suite",
     "version": "0.0.1",
     "license": "MIT",
-    "dependencies": {},
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-http-proxy": "^1.6.0"
+    },
     "scripts": {
         "tsc": "tsc",
         "start-server": "cd server && npm run start-server",

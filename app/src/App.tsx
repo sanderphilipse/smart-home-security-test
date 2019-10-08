@@ -20,7 +20,7 @@ interface AppState {
   fridge: FridgeProps;
 }
 
-const serverUrl = '';
+const serverUrl = '/api';
 
 class App extends React.Component {
   private initialState: AppState = {
